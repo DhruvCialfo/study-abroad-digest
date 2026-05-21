@@ -1,0 +1,831 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Global Study Abroad News Digest — May 16, 2026</title>
+<style>
+/* ─── TOKENS ─────────────────────────────────────────────── */
+:root {
+  --bg:           #f0f4f8;
+  --surface:      #ffffff;
+  --surface-2:    #f8fafc;
+  --border:       #e2e8f0;
+  --border-2:     #cbd5e1;
+  --text:         #0f172a;
+  --text-2:       #334155;
+  --muted:        #64748b;
+  --accent:       #2563eb;
+  --accent-dim:   #dbeafe;
+
+  --visa:         #7c3aed;  --visa-bg:    #ede9fe;
+  --admissions:   #0891b2;  --admissions-bg: #cffafe;
+  --scholarships: #059669;  --scholarships-bg: #d1fae5;
+  --govt:         #dc2626;  --govt-bg:    #fee2e2;
+  --market:       #d97706;  --market-bg:  #fef3c7;
+
+  --origin-c:     #6366f1;  --origin-bg:  #e0e7ff;
+  --dest-c:       #0d9488;  --dest-bg:    #ccfbf1;
+
+  --impact-high:  #ef4444;
+  --impact-med:   #f59e0b;
+  --impact-low:   #22c55e;
+
+  --sidebar-w: 260px;
+  --header-h:  64px;
+  --radius:    12px;
+  --radius-sm: 8px;
+  --shadow-sm: 0 1px 3px rgba(0,0,0,.06), 0 1px 2px rgba(0,0,0,.04);
+  --shadow:    0 4px 12px rgba(0,0,0,.08), 0 2px 4px rgba(0,0,0,.04);
+  --shadow-lg: 0 12px 32px rgba(0,0,0,.12);
+
+  --transition: .18s cubic-bezier(.4,0,.2,1);
+}
+
+[data-theme="dark"] {
+  --bg:         #0d1117;
+  --surface:    #161b22;
+  --surface-2:  #1c2128;
+  --border:     #30363d;
+  --border-2:   #3d444d;
+  --text:       #e6edf3;
+  --text-2:     #c9d1d9;
+  --muted:      #7d8590;
+  --accent:     #58a6ff;
+  --accent-dim: #1d3461;
+
+  --visa-bg:          #2d1b5e;
+  --admissions-bg:    #0c2d38;
+  --scholarships-bg:  #0c2d1e;
+  --govt-bg:          #3d1515;
+  --market-bg:        #3d2c0a;
+  --origin-bg:        #1e2060;
+  --dest-bg:          #0c2d2a;
+}
+
+/* ─── RESET ──────────────────────────────────────────────── */
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior:smooth; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Inter', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+  min-height: 100vh;
+}
+
+/* ─── TOPBAR ─────────────────────────────────────────────── */
+.topbar {
+  position: fixed; top:0; left:0; right:0; height: var(--header-h);
+  background: linear-gradient(135deg, #0f2a4a 0%, #1e3a5f 40%, #2563eb 100%);
+  display: flex; align-items: center;
+  padding: 0 24px;
+  z-index: 200;
+  box-shadow: 0 1px 0 rgba(255,255,255,.08), var(--shadow);
+}
+.topbar-inner {
+  max-width: 1440px; width:100%; margin:0 auto;
+  display: flex; align-items: center; justify-content: space-between; gap:16px;
+}
+.topbar-brand { display:flex; align-items:center; gap:10px; }
+.brand-icon {
+  width:34px; height:34px; background:rgba(255,255,255,.15);
+  border-radius:8px; display:flex; align-items:center; justify-content:center;
+  font-size:17px; flex-shrink:0;
+}
+.brand-text { color:#fff; }
+.brand-text h1 { font-size:.95rem; font-weight:700; letter-spacing:-.01em; line-height:1.2; }
+.brand-text p  { font-size:.7rem; opacity:.65; margin-top:1px; }
+
+.topbar-right { display:flex; align-items:center; gap:10px; flex-shrink:0; }
+.date-badge {
+  background: rgba(255,255,255,.12); color:#fff; font-size:.75rem;
+  font-weight:600; padding:5px 12px; border-radius:6px;
+  border:1px solid rgba(255,255,255,.15);
+}
+.theme-btn {
+  background: rgba(255,255,255,.12); border:1px solid rgba(255,255,255,.15);
+  color:#fff; width:34px; height:34px; border-radius:8px; cursor:pointer;
+  font-size:15px; display:flex; align-items:center; justify-content:center;
+  transition: background var(--transition);
+}
+.theme-btn:hover { background: rgba(255,255,255,.22); }
+
+/* ─── LAYOUT ─────────────────────────────────────────────── */
+.layout {
+  max-width: 1440px; margin:0 auto;
+  padding-top: calc(var(--header-h) + 24px);
+  display: grid;
+  grid-template-columns: var(--sidebar-w) 1fr;
+  grid-template-rows: auto 1fr;
+  gap: 0 24px;
+  padding-left: 24px; padding-right: 24px; padding-bottom: 48px;
+  align-items: start;
+}
+
+/* ─── SIDEBAR ─────────────────────────────────────────────── */
+.sidebar {
+  grid-column: 1;
+  grid-row: 1 / -1;
+  position: sticky;
+  top: calc(var(--header-h) + 16px);
+  display: flex; flex-direction: column; gap:16px;
+}
+
+/* stats card */
+.stats-card {
+  background: var(--surface); border:1px solid var(--border);
+  border-radius: var(--radius); padding:16px;
+  box-shadow: var(--shadow-sm);
+}
+.stats-card-title {
+  font-size:.68rem; font-weight:700; text-transform:uppercase; letter-spacing:.08em;
+  color: var(--muted); margin-bottom:12px;
+}
+.stat-row {
+  display:flex; align-items:center; justify-content:space-between;
+  padding:6px 0; border-bottom:1px solid var(--border);
+}
+.stat-row:last-child { border-bottom:none; }
+.stat-label { display:flex; align-items:center; gap:7px; font-size:.82rem; color:var(--text-2); }
+.stat-dot { width:8px; height:8px; border-radius:50%; flex-shrink:0; }
+.stat-value { font-size:.85rem; font-weight:700; color:var(--text); }
+.stat-total .stat-label { font-weight:600; color:var(--text); }
+
+/* filter card */
+.filter-card {
+  background: var(--surface); border:1px solid var(--border);
+  border-radius: var(--radius); padding:16px;
+  box-shadow: var(--shadow-sm);
+  display:flex; flex-direction:column; gap:14px;
+}
+.filter-group-label {
+  font-size:.68rem; font-weight:700; text-transform:uppercase; letter-spacing:.08em;
+  color: var(--muted); margin-bottom:6px;
+}
+.filter-chips { display:flex; flex-wrap:wrap; gap:5px; }
+.chip {
+  padding:4px 11px; border-radius:20px;
+  border:1.5px solid var(--border); background:transparent;
+  cursor:pointer; font-size:.75rem; font-weight:500; color:var(--text-2);
+  transition: all var(--transition); line-height:1.4;
+  font-family: inherit;
+}
+.chip:hover { border-color:var(--accent); color:var(--accent); background:var(--accent-dim); }
+.chip.on       { background:var(--accent); color:#fff; border-color:var(--accent); }
+.chip.on-visa  { background:var(--visa); color:#fff; border-color:var(--visa); }
+.chip.on-admissions { background:var(--admissions); color:#fff; border-color:var(--admissions); }
+.chip.on-scholarships { background:var(--scholarships); color:#fff; border-color:var(--scholarships); }
+.chip.on-govt  { background:var(--govt); color:#fff; border-color:var(--govt); }
+.chip.on-market{ background:var(--market); color:#fff; border-color:var(--market); }
+
+.reset-btn {
+  width:100%; padding:8px; background:var(--surface-2); border:1px solid var(--border);
+  border-radius:var(--radius-sm); font-size:.78rem; color:var(--muted); cursor:pointer;
+  font-family:inherit; transition: all var(--transition);
+}
+.reset-btn:hover { border-color:var(--border-2); color:var(--text); }
+
+/* ─── MAIN ───────────────────────────────────────────────── */
+.main { grid-column:2; display:flex; flex-direction:column; gap:16px; }
+
+/* search */
+.search-wrap { position:relative; }
+.search-icon {
+  position:absolute; left:14px; top:50%; transform:translateY(-50%);
+  color:var(--muted); pointer-events:none; display:flex; align-items:center;
+}
+.search-input {
+  width:100%; padding:13px 44px 13px 44px; font-size:.95rem;
+  border:2px solid var(--border); border-radius:var(--radius);
+  background:var(--surface); color:var(--text);
+  outline:none; transition: border-color var(--transition), box-shadow var(--transition);
+  font-family:inherit;
+}
+.search-input::placeholder { color:var(--muted); }
+.search-input:focus { border-color:var(--accent); box-shadow:0 0 0 4px rgba(37,99,235,.1); }
+.search-clear {
+  position:absolute; right:14px; top:50%; transform:translateY(-50%);
+  background:var(--border); border:none; color:var(--muted); cursor:pointer;
+  width:20px; height:20px; border-radius:50%; font-size:12px; line-height:1;
+  display:none; align-items:center; justify-content:center; font-family:inherit;
+}
+.search-clear.visible { display:flex; }
+.search-clear:hover { background:var(--border-2); color:var(--text); }
+
+/* toolbar */
+.toolbar {
+  display:flex; align-items:center; justify-content:space-between; gap:8px;
+  flex-wrap:wrap;
+}
+.results-text { font-size:.82rem; color:var(--muted); }
+.results-text strong { color:var(--text); }
+.sort-select {
+  padding:6px 10px; border:1.5px solid var(--border); border-radius:var(--radius-sm);
+  background:var(--surface); color:var(--text); font-size:.78rem; cursor:pointer;
+  outline:none; font-family:inherit;
+}
+.sort-select:focus { border-color:var(--accent); }
+
+/* legend */
+.legend {
+  display:flex; align-items:center; gap:14px; flex-wrap:wrap;
+  font-size:.75rem; color:var(--muted);
+  padding:10px 14px; background:var(--surface-2);
+  border:1px solid var(--border); border-radius:var(--radius-sm);
+}
+.legend strong { color:var(--text-2); }
+.legend-item { display:flex; align-items:center; gap:5px; }
+.l-dot { width:8px; height:8px; border-radius:50%; }
+
+/* ─── CARDS GRID ─────────────────────────────────────────── */
+.cards-grid {
+  display:grid; grid-template-columns:1fr 1fr; gap:16px;
+}
+
+.card {
+  background:var(--surface); border:1px solid var(--border);
+  border-radius:var(--radius); padding:20px 20px 16px;
+  box-shadow:var(--shadow-sm);
+  display:flex; flex-direction:column; gap:10px;
+  transition: box-shadow var(--transition), transform var(--transition), border-color var(--transition);
+  position:relative; overflow:hidden;
+}
+.card::before {
+  content:''; position:absolute; top:0; left:0; right:0; height:3px;
+  background: var(--card-accent, var(--border));
+  transition: opacity var(--transition);
+}
+.card[data-topic="visa"]::before         { background:var(--visa); }
+.card[data-topic="admissions"]::before   { background:var(--admissions); }
+.card[data-topic="scholarships"]::before { background:var(--scholarships); }
+.card[data-topic="govt"]::before         { background:var(--govt); }
+.card[data-topic="market"]::before       { background:var(--market); }
+.card:hover {
+  box-shadow:var(--shadow); transform:translateY(-2px);
+  border-color:var(--border-2);
+}
+
+.card-meta { display:flex; align-items:center; justify-content:space-between; gap:8px; }
+.topic-pill {
+  font-size:.65rem; font-weight:700; text-transform:uppercase; letter-spacing:.07em;
+  padding:3px 9px; border-radius:5px; white-space:nowrap;
+}
+.t-visa         { color:var(--visa);         background:var(--visa-bg); }
+.t-admissions   { color:var(--admissions);   background:var(--admissions-bg); }
+.t-scholarships { color:var(--scholarships); background:var(--scholarships-bg); }
+.t-govt         { color:var(--govt);         background:var(--govt-bg); }
+.t-market       { color:var(--market);       background:var(--market-bg); }
+
+.impact-badge {
+  display:flex; align-items:center; gap:5px;
+  font-size:.67rem; font-weight:600; padding:3px 9px; border-radius:5px;
+}
+.i-high   { color:var(--impact-high);  background:rgba(239,68,68,.1); }
+.i-medium { color:#d97706;             background:rgba(245,158,11,.1); }
+.i-low    { color:var(--impact-low);   background:rgba(34,197,94,.1); }
+.i-dot    { width:6px; height:6px; border-radius:50%; background:currentColor; }
+
+.card h3 {
+  font-size:.93rem; font-weight:650; line-height:1.38; color:var(--text);
+  letter-spacing:-.01em;
+}
+.card p { font-size:.83rem; color:var(--muted); line-height:1.6; }
+
+.card-tags { display:flex; flex-wrap:wrap; gap:5px; margin-top:2px; }
+.tag {
+  font-size:.67rem; font-weight:600; padding:2px 8px; border-radius:4px;
+}
+.tag-origin { color:var(--origin-c); background:var(--origin-bg); }
+.tag-dest   { color:var(--dest-c);   background:var(--dest-bg); }
+
+.card-footer {
+  display:flex; align-items:center; justify-content:space-between; gap:8px;
+  padding-top:10px; border-top:1px solid var(--border); margin-top:auto;
+}
+.card-source { font-size:.73rem; color:var(--muted); }
+.read-link {
+  font-size:.73rem; font-weight:600; color:var(--accent);
+  text-decoration:none; white-space:nowrap; display:flex; align-items:center; gap:4px;
+}
+.read-link:hover { text-decoration:underline; }
+.read-link::after { content:'→'; }
+
+/* empty state */
+.empty-state {
+  grid-column:1/-1; padding:64px 24px; text-align:center; color:var(--muted);
+  display:none; flex-direction:column; align-items:center; gap:10px;
+}
+.empty-state.visible { display:flex; }
+.empty-state-icon { font-size:2.5rem; opacity:.4; }
+.empty-state h3 { font-size:1rem; color:var(--text-2); }
+.empty-state p  { font-size:.85rem; }
+
+/* ─── FOOTER ─────────────────────────────────────────────── */
+.footer {
+  grid-column:1/-1; padding:24px; text-align:center;
+  font-size:.73rem; color:var(--muted); border-top:1px solid var(--border);
+  line-height:1.7; margin-top:8px;
+}
+.footer a { color:var(--accent); text-decoration:none; }
+.footer a:hover { text-decoration:underline; }
+
+/* ─── MOBILE ─────────────────────────────────────────────── */
+@media (max-width:900px) {
+  .layout { grid-template-columns:1fr; padding-left:16px; padding-right:16px; }
+  .sidebar {
+    grid-column:1; grid-row:auto; position:static;
+    flex-direction:row; flex-wrap:wrap; gap:12px;
+  }
+  .stats-card, .filter-card { flex:1 1 300px; }
+  .main { grid-column:1; }
+  .cards-grid { grid-template-columns:1fr; }
+  .topbar-brand .brand-text p { display:none; }
+}
+@media (max-width:500px) {
+  .topbar { padding:0 14px; }
+  .brand-text h1 { font-size:.85rem; }
+  .date-badge { display:none; }
+  .layout { padding-top:calc(var(--header-h) + 14px); padding-bottom:32px; }
+}
+
+/* ─── SCROLL ─────────────────────────────────────────────── */
+::-webkit-scrollbar { width:6px; height:6px; }
+::-webkit-scrollbar-track { background:transparent; }
+::-webkit-scrollbar-thumb { background:var(--border-2); border-radius:3px; }
+::-webkit-scrollbar-thumb:hover { background:var(--muted); }
+
+/* ─── ANIMATION ──────────────────────────────────────────── */
+@keyframes fadeUp {
+  from { opacity:0; transform:translateY(10px); }
+  to   { opacity:1; transform:translateY(0); }
+}
+.card { animation: fadeUp .25s ease both; }
+</style>
+</head>
+<body>
+
+<!-- TOPBAR -->
+<header class="topbar">
+  <div class="topbar-inner">
+    <div class="topbar-brand">
+      <div class="brand-icon">🌐</div>
+      <div class="brand-text">
+        <h1>Global Study Abroad Digest</h1>
+        <p>Curated for Cialfo · International education intelligence</p>
+      </div>
+    </div>
+    <div class="topbar-right">
+      <div class="date-badge">May 16, 2026</div>
+      <button class="theme-btn" id="themeBtn" title="Toggle dark mode">🌙</button>
+    </div>
+  </div>
+</header>
+
+<div class="layout">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+
+    <!-- Stats card -->
+    <div class="stats-card">
+      <div class="stats-card-title">Summary</div>
+      <div class="stat-row stat-total">
+        <span class="stat-label">📰 Total stories</span>
+        <span class="stat-value" id="totalCount">30</span>
+      </div>
+      <div class="stat-row">
+        <span class="stat-label"><span class="stat-dot" style="background:var(--impact-high)"></span>High impact</span>
+        <span class="stat-value" id="highCount">10</span>
+      </div>
+      <div class="stat-row">
+        <span class="stat-label"><span class="stat-dot" style="background:var(--impact-med)"></span>Medium impact</span>
+        <span class="stat-value" id="medCount">10</span>
+      </div>
+      <div class="stat-row">
+        <span class="stat-label"><span class="stat-dot" style="background:var(--impact-low)"></span>Low impact</span>
+        <span class="stat-value" id="lowCount">10</span>
+      </div>
+      <div class="stat-row">
+        <span class="stat-label">🌍 Origin regions</span>
+        <span class="stat-value">5</span>
+      </div>
+      <div class="stat-row">
+        <span class="stat-label">🎓 Destinations</span>
+        <span class="stat-value">8</span>
+      </div>
+    </div>
+
+    <!-- Filters card -->
+    <div class="filter-card">
+      <div>
+        <div class="filter-group-label">Topic</div>
+        <div class="filter-chips" id="topicFilters">
+          <button class="chip on"  data-filter="all"          data-group="topic">All</button>
+          <button class="chip"     data-filter="visa"         data-group="topic">Visa</button>
+          <button class="chip"     data-filter="admissions"   data-group="topic">Rankings</button>
+          <button class="chip"     data-filter="scholarships" data-group="topic">Scholarships</button>
+          <button class="chip"     data-filter="govt"         data-group="topic">Government</button>
+          <button class="chip"     data-filter="market"       data-group="topic">Market</button>
+        </div>
+      </div>
+      <div>
+        <div class="filter-group-label">Origin</div>
+        <div class="filter-chips" id="originFilters">
+          <button class="chip on"  data-filter="all"           data-group="origin">All</button>
+          <button class="chip"     data-filter="south-asia"    data-group="origin">South Asia</button>
+          <button class="chip"     data-filter="southeast-asia"data-group="origin">SE Asia</button>
+          <button class="chip"     data-filter="china"         data-group="origin">China</button>
+          <button class="chip"     data-filter="africa"        data-group="origin">Africa</button>
+          <button class="chip"     data-filter="middle-east"   data-group="origin">Middle East</button>
+        </div>
+      </div>
+      <div>
+        <div class="filter-group-label">Destination</div>
+        <div class="filter-chips" id="destFilters">
+          <button class="chip on"  data-filter="all"       data-group="dest">All</button>
+          <button class="chip"     data-filter="us"        data-group="dest">US</button>
+          <button class="chip"     data-filter="uk"        data-group="dest">UK</button>
+          <button class="chip"     data-filter="aus"       data-group="dest">Australia</button>
+          <button class="chip"     data-filter="canada"    data-group="dest">Canada</button>
+          <button class="chip"     data-filter="nz"        data-group="dest">New Zealand</button>
+          <button class="chip"     data-filter="ireland"   data-group="dest">Ireland</button>
+          <button class="chip"     data-filter="singapore" data-group="dest">Singapore</button>
+          <button class="chip"     data-filter="japan"     data-group="dest">Japan</button>
+        </div>
+      </div>
+      <button class="reset-btn" id="resetBtn">↺ Reset all filters</button>
+    </div>
+
+  </aside>
+
+  <!-- MAIN -->
+  <main class="main">
+
+    <div class="search-wrap">
+      <span class="search-icon">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+      </span>
+      <input class="search-input" id="searchInput" type="text" placeholder="Search headlines, countries, topics…" autocomplete="off">
+      <button class="search-clear" id="searchClear" title="Clear">✕</button>
+    </div>
+
+    <div class="toolbar">
+      <p class="results-text" id="resultsText">Showing all <strong>30</strong> stories</p>
+      <select class="sort-select" id="sortSelect">
+        <option value="default">Sort: Impact first</option>
+        <option value="topic">Sort: By topic</option>
+        <option value="dest">Sort: By destination</option>
+      </select>
+    </div>
+
+    <div class="legend">
+      <strong>Impact:</strong>
+      <span class="legend-item"><span class="l-dot" style="background:var(--impact-high)"></span> High</span>
+      <span class="legend-item"><span class="l-dot" style="background:var(--impact-med)"></span> Medium</span>
+      <span class="legend-item"><span class="l-dot" style="background:var(--impact-low)"></span> Low</span>
+      <span style="margin-left:auto; display:flex; gap:10px; flex-wrap:wrap;">
+        <span class="legend-item"><span class="tag tag-origin" style="font-size:.65rem;">Region</span> Origin</span>
+        <span class="legend-item"><span class="tag tag-dest"   style="font-size:.65rem;">Country</span> Destination</span>
+      </span>
+    </div>
+
+    <div class="cards-grid" id="cardsGrid">
+      <div class="empty-state" id="emptyState">
+        <div class="empty-state-icon">🔍</div>
+        <h3>No stories match</h3>
+        <p>Try different filters or clear your search.</p>
+      </div>
+    </div>
+
+    <footer class="footer">
+      Built for <strong>Cialfo</strong> · Powered by Claude · Sources: ICEF Monitor, The PIE News, Times Higher Education, Inside Higher Ed, government agencies &amp; more<br>
+      Editorial policy: Competitor sources (IDP, ApplyBoard, Shorelight, INTO, Kaplan, Study Group, Navitas, AECC, SI-UK, Crimson) excluded.<br>
+      Last updated: May 16, 2026
+    </footer>
+
+  </main>
+</div>
+
+<script>
+const NEWS_DATA = [
+  // HIGH IMPACT
+  { topic:"visa", impact:"high",
+    title:"US Ends Duration of Status — Caps F-1 Visa Stays at 4 Years from September 2026",
+    summary:"On May 5, DHS submitted the final rule to eliminate Duration of Status for F, J, and I visa holders. From September 2026, most F-1 students must complete their programs within four years or file a formal USCIS extension. The post-graduation grace period drops from 60 to 30 days. Graduate students will be barred from changing programs or transferring schools mid-degree. This fundamentally reshapes the US study timeline for all origin markets.",
+    origins:["south-asia","china","southeast-asia","africa","middle-east"], destinations:["us"],
+    source:"ICEF Monitor", url:"https://monitor.icef.com/2026/05/us-moves-to-end-duration-of-status-for-f-j-and-i-visas-new-rule-could-limit-the-time-international-students-can-study-in-the-us/" },
+  { topic:"visa", impact:"high",
+    title:"Australia Student Visa Rejections for Indians Hit 40% — Highest in Two Decades",
+    summary:"Home Affairs data confirm the student-visa refusal rate hit its highest level in 20 years. Indian applicants face a 40% rejection rate in early 2026, while Nepal is at 65% and Bangladesh at 51%. Chinese applicants maintain just 3%. The Genuine Student test now demands detailed bank statements, tax returns, and proof of genuine temporary entrant intent.",
+    origins:["south-asia"], destinations:["aus"],
+    source:"ICEF Monitor", url:"https://monitor.icef.com/2026/04/australia-student-visa-refusal-rates-reach-record-high-amid-weakening-demand-from-china/" },
+  { topic:"govt", impact:"high",
+    title:"Australia Federal Budget Adds $19.8M for Visa Integrity Crackdown on Students",
+    summary:"The May 14 federal budget allocated $19.8 million over four years to the Department of Home Affairs for enhanced security screening of onshore and offshore student visa applications. Treasury forecasts note services exports will grow only 'modestly' as student stock remains subdued. A new levy on all higher education providers will fund the National Student Ombudsman.",
+    origins:["south-asia","southeast-asia","china"], destinations:["aus"],
+    source:"Baker McKenzie / The Koala News", url:"https://thekoalanews.com/tracy-harris-on-the-budget-2026-visa-integrity-crackdown-and-continued-pressure-on-international-education/" },
+  { topic:"visa", impact:"high",
+    title:"US F-1 Visa Refusals Surge to 35% Globally — India at 61%, Africa at 64%",
+    summary:"F-1 student visa denials worldwide reached 35% in 2025, the highest in a decade. Indian applicants saw refusal rates jump from 36% in 2023 to 61% in 2025. African nationals faced 64% rejection rates. The surge reflects intensified vetting, mandatory social media disclosure on DS-160 forms, and stricter financial documentation requirements.",
+    origins:["south-asia","africa","middle-east"], destinations:["us"],
+    source:"Inside Higher Ed", url:"https://www.insidehighered.com/news/global/international-students-us/2026/04/11/f-1-student-visa-refusals-surged-2025" },
+  { topic:"visa", impact:"high",
+    title:"Canada New Student Arrivals Down 37% YoY — Only 155,000 Permits for 2026",
+    summary:"IRCC confirmed only 155,000 study permits will be issued in 2026, down nearly 50% from 305,900 the prior year. New student arrivals fell 37% year-over-year in January 2026, with just 7,040 permits issued versus 11,215 in January 2025. Master's and doctoral students at public institutions are exempt from the cap.",
+    origins:["south-asia","china","southeast-asia"], destinations:["canada"],
+    source:"CIC News / Government of Canada", url:"https://www.canada.ca/en/immigration-refugees-citizenship/news/notices/2026-provincial-territorial-allocations-under-international-student-cap.html" },
+  { topic:"market", impact:"high",
+    title:"UK International Enrolments Down 30% Year-on-Year — Postgrad Masters Plunge 10%",
+    summary:"UK international enrolments dropped 30% year-on-year, with 7 in 10 universities reporting declines in international postgraduate students. Master's programmes fell 10% amid record drops in overseas students. Pakistani enrolments collapsed 75%, with India and Bangladesh also down sharply.",
+    origins:["south-asia","africa","middle-east"], destinations:["uk"],
+    source:"The PIE News / Times Higher Education", url:"https://thepienews.com/uk-international-enrolments-down-30-year-on-year/" },
+  { topic:"visa", impact:"high",
+    title:"Australia Moves India, Nepal, Bangladesh, Bhutan to Highest-Risk Visa Category",
+    summary:"Australia reclassified India from Evidence Level 2 to Evidence Level 3 — the system's highest-risk category — effective January 2026. Bangladesh, Nepal, and Bhutan received the same re-rating. Families must now show proof of funds for the entire degree — often A$80,000 or more — rather than one-year costs.",
+    origins:["south-asia"], destinations:["aus"],
+    source:"Kathmandu Post", url:"https://kathmandupost.com/world/2026/01/13/australia-moves-4-south-asian-countries-to-highest-risk-category-for-student-visas" },
+  { topic:"visa", impact:"high",
+    title:"US New Student Visa Issuances Dropped 35.6% Last Summer — $1.1B Revenue Lost",
+    summary:"New F-1 student visa issuances fell 35.6% during summer 2025 versus the prior year, with Indian student visas dropping from 41,336 to 12,776 in the June-July window alone. The decline represents $1.1 billion in lost revenue and approximately 23,000 fewer jobs for US institutions.",
+    origins:["south-asia","china","africa"], destinations:["us"],
+    source:"Inside Higher Ed", url:"https://www.insidehighered.com/news/global/international-students-us/2026/03/10/new-student-visas-dropped-356-last-summer" },
+  { topic:"visa", impact:"high",
+    title:"Australia Doubles Post-Study Work Visa Fee to AUD $4,600",
+    summary:"The Australian government doubled the Temporary Graduate Visa (Subclass 485) fee to AUD $4,600 from March 1, 2026. Combined with visa application fees that earned the government A$735 million last year (up from A$244 million in 2018), cost barriers are rising sharply for price-sensitive South and Southeast Asian markets.",
+    origins:["south-asia","southeast-asia","china"], destinations:["aus"],
+    source:"ICEF Monitor", url:"https://monitor.icef.com/2026/03/australia-doubles-post-study-work-visa-application-fee/" },
+  { topic:"visa", impact:"high",
+    title:"US Restricts Entry and Visa Issuance for Nationals of 39 Countries",
+    summary:"From January 1, 2026, the United States fully or partially suspended entry and visa issuance for nationals of 39 countries. The restrictions affect persons outside the US who do not already hold a valid visa, creating significant uncertainty for prospective international students from affected nations.",
+    origins:["africa","middle-east","south-asia"], destinations:["us"],
+    source:"Fragomen", url:"https://www.fragomen.com/insights/united-states-2026-international-travel-planning-for-f-1-students.html" },
+  // MEDIUM IMPACT
+  { topic:"market", impact:"medium",
+    title:"Big Four All Declining — 69% of Canadian, 62% of US Institutions Report Enrollment Drops",
+    summary:"The Q1 2026 Global Enrolment Benchmark Survey (NAFSA/Studyportals) found 69% of Canadian institutions reported fewer undergraduate students, while 62% of US universities saw declines — up from 48% in Q1 2025. Meanwhile, 82% of Asian institutions saw increases.",
+    origins:["south-asia","china","southeast-asia","africa","middle-east"], destinations:["us","uk","aus","canada"],
+    source:"ICEF Monitor / NAFSA", url:"https://monitor.icef.com/2026/05/universities-urged-to-focus-on-factors-they-can-control-as-policy-settings-continue-to-depress-international-student-enrolments-in-the-big-four/" },
+  { topic:"govt", impact:"medium",
+    title:"UK Home Office Updates Visa Sponsor Guidance — Tightens Agent Oversight",
+    summary:"Updated Student Sponsor Guidance published April 7, 2026 expands regulatory oversight of how UK universities engage with education agents. Universities must now demonstrate due diligence in agent relationships, with non-compliance potentially affecting their visa sponsorship licence.",
+    origins:["south-asia","southeast-asia","africa"], destinations:["uk"],
+    source:"ICEF Monitor", url:"https://monitor.icef.com/2026/04/uk-home-office-publishes-updated-visa-sponsor-guidance-for-agents-and-third-parties/" },
+  { topic:"visa", impact:"medium",
+    title:"Canada Removes Co-op Work Permit Requirement for International Students",
+    summary:"As of April 1, 2026, post-secondary international students in Canada no longer need a separate co-op work permit for placements including co-ops, internships, and practicums. The change simplifies work authorization and reduces administrative burden.",
+    origins:["south-asia","china","southeast-asia"], destinations:["canada"],
+    source:"ICEF Monitor", url:"https://monitor.icef.com/2026/04/canadian-immigration-officials-move-to-ease-rules-around-student-work-permits/" },
+  { topic:"visa", impact:"medium",
+    title:"UK Student Visa Fees Rise to £558 — Maintenance Funds Up to £1,529/Month",
+    summary:"UK Visas and Immigration increased student visa fees to £558 for both main applicants and dependants from April 8, 2026. Maintenance fund requirements rose to £1,529/month for London-based courses. This comes alongside the Graduate Route reduction from 2 years to 18 months for applications from January 2027.",
+    origins:["south-asia","southeast-asia","africa","china","middle-east"], destinations:["uk"],
+    source:"UKCISA", url:"https://www.ukcisa.org.uk/news/uk-visa-fees-increasing-from-8-april-2026/" },
+  { topic:"govt", impact:"medium",
+    title:"Australia Sets Student Planning Level at 295,000 — Traffic-Light Processing Model",
+    summary:"Australia's 2026 international student planning level is 295,000 visa places, up from 270,000 in 2025. A new traffic-light processing model gives institutions using below 80% of their enrolment cap the fastest processing. Students on visitor or temporary graduate visas can no longer switch to student visas onshore.",
+    origins:["south-asia","southeast-asia","china"], destinations:["aus"],
+    source:"Study Australia", url:"https://www.studyaustralia.gov.au/en/tools-and-resources/news/student-visa-processing-update" },
+  { topic:"visa", impact:"medium",
+    title:"Canada PGWP Now Requires CLB 7 for University Graduates — Field Restrictions Tighten",
+    summary:"Canada's Post-Graduation Work Permit now requires language proficiency of CLB 7 for university graduates and CLB 5 for college graduates. Non-degree graduates face field-of-study restrictions tied to labor-shortage occupations. Generic business or hospitality diploma graduates no longer qualify for post-study work permits.",
+    origins:["south-asia","china"], destinations:["canada"],
+    source:"VisaVerge / CIC News", url:"https://www.cicnews.com/2026/04/canada-moves-to-expand-work-authorization-for-international-students-and-graduates-0473917.html" },
+  { topic:"govt", impact:"medium",
+    title:"Japan MEXT Raises Enrollment Caps 5% and Launches ¥3.3B Researcher Program",
+    summary:"Japan's Ministry of Education raised enrollment caps at select universities by 5% from April 2026, and launched a ¥3.3 billion program across 11 universities to attract overseas researchers. Japan surpassed its 400,000 foreign student target in 2025.",
+    origins:["southeast-asia","china","south-asia"], destinations:["japan"],
+    source:"ICEF Monitor", url:"https://monitor.icef.com/2026/02/japan-surpassed-its-foreign-enrolment-target-of-400000-in-2025/" },
+  { topic:"govt", impact:"medium",
+    title:"New Zealand Debuts Growth Plan — Targets 35,000 Additional International Students",
+    summary:"New Zealand launched a comprehensive growth strategy targeting 35,000 additional international students. The plan includes relaxing work-hour restrictions, extending work eligibility across more student categories, and introducing a Short Term Graduate Work Visa in late 2026.",
+    origins:["south-asia","southeast-asia","china"], destinations:["nz"],
+    source:"The PIE News", url:"https://thepienews.com/nz-debuts-growth-plan-as-it-eyes-35k-more-international-students/" },
+  { topic:"visa", impact:"medium",
+    title:"UK Visa Brake Bars Student Visas from Four Countries — No End Date Announced",
+    summary:"The UK Home Office activated the visa brake mechanism in March 2026, barring new student visa applications from nationals of Afghanistan, Cameroon, Myanmar, and Sudan. The ban applies to overseas entry clearance only. As of May 2026, the brake remains in effect with no announced end date.",
+    origins:["africa","south-asia","southeast-asia"], destinations:["uk"],
+    source:"UKCISA / VisaVerge", url:"https://www.ukcisa.org.uk/news/student-update-student-route-visa-brake-announced-and-two-new-countries-added-to-visa-national-list/" },
+  { topic:"visa", impact:"medium",
+    title:"US Implements Enhanced Social Media Screening for All F-1 and J-1 Holders",
+    summary:"All F-1 students, J-1 exchange visitors, H-1B employees, and their dependants are now subject to additional social media screening as part of the US visa process. Consular officers conduct detailed financial verification, and international students face elevated re-entry risks when traveling outside the US.",
+    origins:["south-asia","china","southeast-asia","africa","middle-east"], destinations:["us"],
+    source:"ICEF Monitor", url:"https://monitor.icef.com/2026/04/what-international-students-need-to-know-about-study-and-work-visas-in-the-united-states/" },
+  // LOW IMPACT
+  { topic:"market", impact:"low",
+    title:"82% of Asian Universities Report Enrollment Gains in Q1 2026 — None Report Drops",
+    summary:"The Global Enrolment Benchmark Survey found 82% of Asian institutions saw more new undergraduate students in Q1 2026, and none reported drops. In Europe, 47% of universities reported year-over-year increases — nearly double those reporting declines.",
+    origins:["south-asia","southeast-asia","china","africa","middle-east"], destinations:["singapore","japan"],
+    source:"ICEF Monitor / NAFSA", url:"https://monitor.icef.com/2026/05/universities-urged-to-focus-on-factors-they-can-control-as-policy-settings-continue-to-depress-international-student-enrolments-in-the-big-four/" },
+  { topic:"market", impact:"low",
+    title:"Europe Gains Ground — Spain, Italy, Germany, France Overtake Traditional Destinations in Search Traffic",
+    summary:"Five of the top 10 searched study destinations in late 2025 were in Europe, with Spain, Italy, Germany, and France recording more student search interest than Canada and Australia. The shift is driven by volatile visa policies in traditional destinations and growing English-taught program availability.",
+    origins:["south-asia","china","southeast-asia"], destinations:[],
+    source:"ICEF Monitor", url:"https://monitor.icef.com/2025/12/search-and-enrolment-data-foreshadows-international-enrolment-trends-for-2026/" },
+  { topic:"govt", impact:"low",
+    title:"Coventry University to Open Campus in Nigeria — TNE Degrees Without a Visa",
+    summary:"The Federal Government of Nigeria is partnering to establish a Coventry University campus in Alaro City, Lagos. The TNE campus will offer Bachelor's and Master's programmes in STEMM, Business, and TVET, with degrees equivalent to UK qualifications. Admissions expected between Q3 and Q4 2026.",
+    origins:["africa"], destinations:["uk"],
+    source:"EduTimes Africa", url:"https://edutimesafrica.com/no-visa-needed-uk-degrees-land-in-nigeria/" },
+  { topic:"market", impact:"low",
+    title:"Japan Surpasses 400,000 Foreign Student Target Ahead of Schedule",
+    summary:"Japan's international student population reached 435,200 as of June 2025, surpassing its 2033 target of 400,000 nearly eight years early. The achievement was supported by expanded English-taught programs, a weakened yen, and proactive government recruitment.",
+    origins:["southeast-asia","china","south-asia"], destinations:["japan"],
+    source:"ICEF Monitor", url:"https://monitor.icef.com/2026/02/japan-surpassed-its-foreign-enrolment-target-of-400000-in-2025/" },
+  { topic:"admissions", impact:"low",
+    title:"QS Rankings 2026 Introduces International Student Diversity Metric",
+    summary:"The QS World University Rankings 2026 added a new International Student Diversity metric measuring how many nationalities are represented in a university's international student body. The metric signals a shift from quantity to quality in internationalization.",
+    origins:["south-asia","southeast-asia","china","africa","middle-east"], destinations:["uk","us","aus","canada"],
+    source:"QS / TopUniversities", url:"https://www.topuniversities.com/world-university-rankings" },
+  { topic:"visa", impact:"low",
+    title:"Canada Introduces Shorter Study Permits for Prerequisite Course Students",
+    summary:"From February 19, 2026, international students taking prerequisite programs in Canada receive shorter study permits valid only for the prerequisite program length plus 90 days, down from plus one year. The change tightens oversight of pathway programs.",
+    origins:["south-asia","china"], destinations:["canada"],
+    source:"CIC News", url:"https://www.cicnews.com/2026/02/international-students-taking-prerequisites-will-be-issued-shorter-study-permits-under-new-rules-0271879.html" },
+  { topic:"scholarships", impact:"low",
+    title:"Malaysia Government Scholarships Open for 2026 — MIS and MTCP Programs",
+    summary:"Malaysia's government-backed Malaysia International Scholarship and Malaysian Technical Cooperation Programme are accepting applications for 2026. Coverage includes full tuition waivers, monthly stipends up to RM3,500, return airfares, and health insurance.",
+    origins:["south-asia","southeast-asia","africa","middle-east"], destinations:[],
+    source:"Scholar Hunter", url:"https://www.scholarhunter.com/malaysian-government-international-scholarships-2026-intake/2025/" },
+  { topic:"market", impact:"low",
+    title:"Ireland International Student Enrollments Hit All-Time High Above 40,000",
+    summary:"Ireland's international student enrollments reached an all-time high exceeding 40,000 in 2023/24, with continued growth projected. Ireland is positioning itself as an English-speaking European alternative for students diverted from the UK and US by tighter visa policies and higher costs.",
+    origins:["south-asia","southeast-asia","africa"], destinations:["ireland"],
+    source:"ICEF Monitor", url:"https://monitor.icef.com/2025/12/global-trends-in-international-enrolments-and-policies-as-we-head-into-2026/" },
+  { topic:"govt", impact:"low",
+    title:"Australia TEQSA Now Requires Authorization for All Offshore Education Delivery",
+    summary:"From January 2026, Australian higher education providers delivering courses offshore must obtain TEQSA authorization. Visa officers are increasingly questioning why students need to study onshore when TNE alternatives exist locally.",
+    origins:["southeast-asia","south-asia"], destinations:["aus"],
+    source:"MinterEllison", url:"https://www.minterellison.com/articles/strengthening-the-regulation-of-transnational-education-in-australia" },
+  { topic:"market", impact:"low",
+    title:"US International Enrollment Forecast Projects 1% Annual Decline Through 2030",
+    summary:"An updated forecast projects approximately 1% annual decline in US international enrollments through 2030. Volatile visa and work policies are the main deterrent for Indian students, while China's outbound numbers weaken. Graduate enrollment saw a 12% decline in Fall 2025.",
+    origins:["south-asia","china"], destinations:["us"],
+    source:"ICEF Monitor", url:"https://monitor.icef.com/2026/02/updated-forecast-projects-marginal-decline-in-foreign-enrolment-in-the-us-through-2030/" }
+];
+
+// ─── LABELS ────────────────────────────────────────────────
+const TOPIC_LABELS = {
+  visa:'Visa & Immigration', admissions:'Rankings & Admissions',
+  scholarships:'Scholarships & Funding', govt:'Government & Regulatory', market:'Market Trends'
+};
+const ORIGIN_LABELS = {
+  'south-asia':'South Asia','southeast-asia':'SE Asia',
+  china:'China', africa:'Africa','middle-east':'Middle East'
+};
+const DEST_LABELS = {
+  us:'US', uk:'UK', aus:'Australia', canada:'Canada',
+  nz:'New Zealand', ireland:'Ireland', singapore:'Singapore', japan:'Japan'
+};
+const IMPACT_ORDER = { high:0, medium:1, low:2 };
+
+// ─── STATE ────────────────────────────────────────────────
+let filters = { topic:'all', origin:'all', dest:'all' };
+let search = '';
+let sort = 'default';
+
+// ─── RENDER ───────────────────────────────────────────────
+function render() {
+  const grid = document.getElementById('cardsGrid');
+  const empty = document.getElementById('emptyState');
+  const q = search.toLowerCase();
+
+  let items = NEWS_DATA.filter(item => {
+    if (filters.topic  !== 'all' && item.topic !== filters.topic) return false;
+    if (filters.origin !== 'all' && !item.origins.includes(filters.origin)) return false;
+    if (filters.dest   !== 'all' && !item.destinations.includes(filters.dest)) return false;
+    if (q && !(
+      item.title.toLowerCase().includes(q) ||
+      item.summary.toLowerCase().includes(q) ||
+      item.origins.some(o => (ORIGIN_LABELS[o]||o).toLowerCase().includes(q)) ||
+      item.destinations.some(d => (DEST_LABELS[d]||d).toLowerCase().includes(q)) ||
+      (TOPIC_LABELS[item.topic]||'').toLowerCase().includes(q)
+    )) return false;
+    return true;
+  });
+
+  if (sort === 'topic') items.sort((a,b) => a.topic.localeCompare(b.topic));
+  else if (sort === 'dest') items.sort((a,b) => (a.destinations[0]||'zzz').localeCompare(b.destinations[0]||'zzz'));
+  else items.sort((a,b) => IMPACT_ORDER[a.impact] - IMPACT_ORDER[b.impact]);
+
+  // remove old cards
+  grid.querySelectorAll('.card').forEach(c => c.remove());
+
+  const high = items.filter(i => i.impact==='high').length;
+  const med  = items.filter(i => i.impact==='medium').length;
+  const low  = items.filter(i => i.impact==='low').length;
+
+  document.getElementById('totalCount').textContent = items.length;
+  document.getElementById('highCount').textContent  = high;
+  document.getElementById('medCount').textContent   = med;
+  document.getElementById('lowCount').textContent   = low;
+
+  const total = NEWS_DATA.length;
+  const resText = document.getElementById('resultsText');
+  resText.innerHTML = items.length === total
+    ? `Showing all <strong>${items.length}</strong> stories`
+    : `Showing <strong>${items.length}</strong> of <strong>${total}</strong> stories`;
+
+  if (items.length === 0) {
+    empty.classList.add('visible');
+    return;
+  }
+  empty.classList.remove('visible');
+
+  items.forEach((item, i) => {
+    const card = document.createElement('div');
+    card.className = 'card';
+    card.dataset.topic = item.topic;
+    card.style.animationDelay = `${Math.min(i * 30, 300)}ms`;
+
+    const impactLabel = item.impact.charAt(0).toUpperCase() + item.impact.slice(1);
+    const originTags  = item.origins.map(o =>
+      `<span class="tag tag-origin">${ORIGIN_LABELS[o]||o}</span>`).join('');
+    const destTags    = item.destinations.map(d =>
+      `<span class="tag tag-dest">${DEST_LABELS[d]||d}</span>`).join('');
+
+    card.innerHTML = `
+      <div class="card-meta">
+        <span class="topic-pill t-${item.topic}">${TOPIC_LABELS[item.topic]}</span>
+        <span class="impact-badge i-${item.impact}"><span class="i-dot"></span>${impactLabel}</span>
+      </div>
+      <h3>${item.title}</h3>
+      <p>${item.summary}</p>
+      ${(originTags || destTags) ? `<div class="card-tags">${originTags}${destTags}</div>` : ''}
+      <div class="card-footer">
+        <span class="card-source">${item.source}</span>
+        <a class="read-link" href="${item.url}" target="_blank" rel="noopener">Read article</a>
+      </div>
+    `;
+    grid.insertBefore(card, empty);
+  });
+}
+
+// ─── FILTER CHIPS ────────────────────────────────────────
+document.querySelectorAll('.chip').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const group = btn.dataset.group;
+    const val   = btn.dataset.filter;
+    filters[group] = val;
+
+    btn.closest('.filter-chips').querySelectorAll('.chip').forEach(b => b.className = 'chip');
+    if (val === 'all' || group !== 'topic') {
+      btn.classList.add('on');
+    } else {
+      btn.classList.add(`on-${val}`);
+    }
+    render();
+  });
+});
+
+// ─── SEARCH ──────────────────────────────────────────────
+const searchEl = document.getElementById('searchInput');
+const clearBtn = document.getElementById('searchClear');
+
+searchEl.addEventListener('input', () => {
+  search = searchEl.value;
+  clearBtn.classList.toggle('visible', search.length > 0);
+  render();
+});
+clearBtn.addEventListener('click', () => {
+  searchEl.value = '';
+  search = '';
+  clearBtn.classList.remove('visible');
+  searchEl.focus();
+  render();
+});
+
+// ─── SORT ────────────────────────────────────────────────
+document.getElementById('sortSelect').addEventListener('change', e => {
+  sort = e.target.value;
+  render();
+});
+
+// ─── RESET ───────────────────────────────────────────────
+document.getElementById('resetBtn').addEventListener('click', () => {
+  filters = { topic:'all', origin:'all', dest:'all' };
+  search = '';
+  sort = 'default';
+  searchEl.value = '';
+  clearBtn.classList.remove('visible');
+  document.getElementById('sortSelect').value = 'default';
+  document.querySelectorAll('.chip').forEach(b => {
+    b.className = 'chip';
+    if (b.dataset.filter === 'all') b.classList.add('on');
+  });
+  render();
+});
+
+// ─── DARK MODE ───────────────────────────────────────────
+const themeBtn = document.getElementById('themeBtn');
+let dark = false;
+themeBtn.addEventListener('click', () => {
+  dark = !dark;
+  document.documentElement.setAttribute('data-theme', dark ? 'dark' : 'light');
+  themeBtn.textContent = dark ? '☀️' : '🌙';
+});
+
+render();
+</script>
+</body>
+</html>
